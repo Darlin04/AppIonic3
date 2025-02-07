@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi App Ionic</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic.js"></script>
+    <style>
+      #pageContent {
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <ion-app>
+      <ion-content>
+        <ion-grid>
+            <ion-row>
+                <ion-col size-md="4" offset-md="4">
+                    <!-- Ionic Card -->
+                    <ion-card color="light">
+                        <ion-card-header color="secondary">
+                            <ion-card-title>
+                                Tabla de Multiplicar
+                            </ion-card-title>
+                        </ion-card-header>
+                        <ion-card-content>
+                            <ion-item margin-vertical>
+                               <!-- <ion-label position="floating">Ingrese un número</ion-label>-->
+                                <ion-input type="number" id="numero1"></ion-input>
+                            </ion-item>
+                            <div margin-vertical text-right>
+                                <ion-button id="button-save">
+                                    <ion-icon name="calculator" slot="start"></ion-icon>
+                                    Calcular
+                                </ion-button>
+                                <ion-button fill="outline" color="danger" id="button-cancel">
+                                    <ion-icon name="trash" slot="start"></ion-icon>
+                                    Clear
+                                </ion-button>
+                            </div>
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size-md="4" offset-md="4">
+                    <ion-list id="product-list"></ion-list>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-content>
+      <!-- Menú lateral -->
+      <ion-menu side="start" menu-id="first" content-id="main-content">
+        <ion-header>
+          <ion-toolbar color="primary">
+            <ion-title>Menú</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <ion-list>
+            <ion-menu-toggle auto-hide="false">
+              <ion-item button detail="false" onclick="loadPage('inicio')">
+                <ion-label>Pagina inicial</ion-label>
+              </ion-item>
+              <ion-item button detail="false" onclick="loadPage('sumadora')">
+                <ion-label>Sumadora</ion-label>
+              </ion-item>
+              <ion-item button detail="false" onclick="loadPage('numerosALetras')">
+                <ion-label>Numeros a letras</ion-label>
+              </ion-item>
+              <ion-item button detail="false" onclick="loadPage('tablaMultiplicar')">
+                <ion-label>Tabla de Multiplicar</ion-label>
+              </ion-item>
+              <ion-item button detail="false" onclick="loadPage('experienciaPersonal')">
+                <ion-label>Experiencia Personal</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+          </ion-list>
+        </ion-content>
+      </ion-menu>
+
+      <!-- Contenido principal (referenciado por el menú) -->
+      <div id="main-content">
+        <ion-header>
+          <ion-toolbar color="primary">
+            <ion-buttons slot="start">
+              <!-- Botón que abre el menú -->
+              <ion-menu-button></ion-menu-button>
+            </ion-buttons>
+            <ion-title>Mi App</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          
+        </ion-content>
+      </div>
+    </ion-app>
+
+    <!-- Script para cambiar el contenido según la opción seleccionada -->
+    <script>
+      function loadPage(page) {
+        const contentDiv = document.getElementById("pageContent");
+        switch (page) {
+          case "inicio":
+          window.location.href = 'index.html'; // Redirige a la página inicial
+          break;
+            break;
+          case "sumadora":
+            window.location.href = 'Sumadora.html'; // Redirige a la página de sumadora
+            break;
+          case "numerosALetras":
+          window.location.href = 'numerosALetras.html'; // Redirige a la página de sumadora
+          break;
+            
+          case "tablaMultiplicar":
+            window.location.href = 'tablaMultiplicar.html'; // Redirige a la página de sumadora
+            break;
+          case "experienciaPersonal":
+              window.location.href = 'experienciaPersonal.html'; // Redirige a la página de sumadora
+              break;                                          
+          default:
+            contentDiv.innerHTML = `
+              <h2>Error</h2>
+              <p>Página no encontrada.</p>
+            `;
+        }
+        // Cierra el menú luego de hacer la selección
+        const menu = document.querySelector("ion-menu");
+        if (menu) {
+          menu.close();
+        }
+      }
+    </script>
+
+    <!-- Script para la funcionalidad de la tabla de multiplicar -->
+    <script>
+        // Obtener referencias a los elementos
+        const numero1Input = document.getElementById('numero1');
+        const calcularButton = document.getElementById('button-save');
+        const clearButton = document.getElementById('button-cancel');
+        const productList = document.getElementById('product-list');
+
+        // Función para generar la tabla de multiplicar
+        calcularButton.addEventListener('click', () => {
+            const numero = parseInt(numero1Input.value) || 0;
+            let tablaHTML = '';
+            
+            // Generar la tabla de multiplicar hasta el 13
+            for(let i = 1; i <= 13; i++) {
+                const resultado = numero * i;
+                tablaHTML += `
+                    <ion-item>
+                        <ion-label>${numero} x ${i} = ${resultado}</ion-label>
+                    </ion-item>
+                `;
+            }
+            
+            // Mostrar la tabla en la lista
+            productList.innerHTML = tablaHTML;
+        });
+
+        // Función para limpiar
+        clearButton.addEventListener('click', () => {
+            numero1Input.value = '';
+            productList.innerHTML = '';
+        });
+    </script>
+  </body>
+</html>

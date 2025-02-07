@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi App Ionic</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic.js"></script>
+    <style>
+      #pageContent {
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <ion-app>
+      <ion-content>
+        <ion-grid>
+            <ion-row>
+                <ion-col size-md="4" offset-md="4">
+                    <!-- Ionic Card -->
+                    <ion-card color="light">
+                        <ion-card-header color="secondary">
+                            <ion-card-title>
+                                Sumadora 
+                            </ion-card-title>
+                        </ion-card-header>
+                        <ion-card-content>
+                            <ion-item margin-vertical>
+                                <ion-input type="text" id="numero1"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-input type="number" id="numero2"></ion-input>
+                            </ion-item>
+                            <div margin-vertical text-right>
+                                <ion-button id="button-save">
+                                    <ion-icon name="add-circle" slot="start"></ion-icon>
+                                    Sumar
+                                </ion-button>
+                                <ion-button fill="outline" color="danger" id="button-cancel">
+                                    <ion-icon name="trash" slot="start"></ion-icon>
+                                    Clear
+                                </ion-button>
+                            </div>
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size-md="4" offset-md="4">
+                    <ion-card color="light">
+                        <ion-card-header color="secondary">
+                            <ion-card-title>Resultado</ion-card-title>
+                        </ion-card-header>
+                        <ion-card-content>
+                            <ion-item>
+                                <ion-label>Total:</ion-label>
+                                <ion-label id="resultado">0</ion-label>
+                            </ion-item>
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size-md="4" offset-md="4">
+                    <ion-list id="product-list"></ion-list>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size-md="4" offset-md="4">
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-content>
+      <!-- Menú lateral -->
+      <ion-menu side="start" menu-id="first" content-id="main-content">
+        <ion-header>
+          <ion-toolbar color="primary">
+            <ion-title>Menú</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <ion-list>
+            <ion-menu-toggle auto-hide="false">
+              <ion-item button detail="false" onclick="loadPage('inicio')">
+                <ion-label>Pagina inicial</ion-label>
+              </ion-item>
+              <ion-item button detail="false" onclick="loadPage('sumadora')">
+                <ion-label>Sumadora</ion-label>
+              </ion-item>
+              <ion-item button detail="false" onclick="loadPage('numerosALetras')">
+                <ion-label>Numeros a letras</ion-label>
+              </ion-item>
+              <ion-item button detail="false" onclick="loadPage('tablaMultiplicar')">
+                <ion-label>Tabla de Multiplicar</ion-label>
+              </ion-item>
+              <ion-item button detail="false" onclick="loadPage('experienciaPersonal')">
+                <ion-label>Experiencia Personal</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+          </ion-list>
+        </ion-content>
+      </ion-menu>
+
+      <!-- Contenido principal (referenciado por el menú) -->
+      <div id="main-content">
+        <ion-header>
+          <ion-toolbar color="primary">
+            <ion-buttons slot="start">
+              <!-- Botón que abre el menú -->
+              <ion-menu-button></ion-menu-button>
+            </ion-buttons>
+            <ion-title>Mi App</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          
+        </ion-content>
+      </div>
+    </ion-app>
+
+    <!-- Script para cambiar el contenido según la opción seleccionada -->
+    <script>
+      function loadPage(page) {
+        const contentDiv = document.getElementById("pageContent");
+        switch (page) {
+          case "inicio":
+          window.location.href = 'index.html';
+          break;
+            break;
+          case "sumadora":
+            window.location.href = 'Sumadora.html'; 
+            break;
+          case "numerosALetras":
+          window.location.href = 'numerosALetras.html'; 
+          break;
+            
+          case "tablaMultiplicar":
+            window.location.href = 'tablaMultiplicar.html';
+            break;
+          case "experienciaPersonal":
+              window.location.href = 'experienciaPersonal.html';
+              break;                                          
+          default:
+            contentDiv.innerHTML = `
+              <h2>Error</h2>
+              <p>Página no encontrada.</p>
+            `;
+        }
+        // Cierra el menú luego de hacer la selección
+        const menu = document.querySelector("ion-menu");
+        if (menu) {
+          menu.close();
+        }
+      }
+    </script>
+
+    <!-- Script para la funcionalidad de la sumadora -->
+    <script>
+        const numero1Input = document.getElementById('numero1');
+        const numero2Input = document.getElementById('numero2');
+        const sumarButton = document.getElementById('button-save');
+        const clearButton = document.getElementById('button-cancel');
+        const resultadoLabel = document.getElementById('resultado');
+
+        // Función para sumar
+        sumarButton.addEventListener('click', () => {
+            const num1 = parseFloat(numero1Input.value) || 0;
+            const num2 = parseFloat(numero2Input.value) || 0;
+            
+            const suma = num1 + num2;
+            
+            resultadoLabel.textContent = suma.toFixed(2);
+        });
+
+        // Función para limpiar
+        clearButton.addEventListener('click', () => {
+            numero1Input.value = '';
+            numero2Input.value = '';
+            resultadoLabel.textContent = '0';
+        });
+    </script>
+  </body>
+</html>

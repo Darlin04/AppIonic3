@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi App Ionic</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic.js"></script>
+    <style>
+      
+      #pageContent {
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <ion-app>
+      <!-- Menú lateral -->
+      <ion-menu side="start" menu-id="first" content-id="main-content">
+        <ion-header>
+          <ion-toolbar color="primary">
+            <ion-title>Menú</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <ion-list>
+            <ion-menu-toggle auto-hide="false">
+              <ion-item button detail="false" onclick="loadPage('inicio')">
+                <ion-label>Pagina inicial</ion-label>
+              </ion-item>
+              <ion-item button detail="false" onclick="loadPage('sumadora')">
+                <ion-label>Sumadora</ion-label>
+              </ion-item>
+              <ion-item button detail="false" onclick="loadPage('numerosALetras')">
+                <ion-label>Numeros a letras</ion-label>
+              </ion-item>
+              <ion-item button detail="false" onclick="loadPage('tablaMultiplicar')">
+                <ion-label>Tabla de Multiplicar</ion-label>
+              </ion-item>
+              <ion-item button detail="false" onclick="loadPage('experienciaPersonal')">
+                <ion-label>Experiencia Personal</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+          </ion-list>
+        </ion-content>
+      </ion-menu>
+
+      <!-- Contenido principal (referenciado por el menú) -->
+
+      <ion-content>
+        <div id="pageContent">
+          <h2>Convertir Números a Letras</h2>
+          <ion-item>
+           <!-- <ion-label position="floating">Ingrese un número (1-1000)</ion-label> -->
+            <ion-input type="number" min="1" max="1000" id="numeroInput"></ion-input>
+          </ion-item>
+          <ion-button expand="block" onclick="convertirNumero()" style="margin-top: 20px;">
+            Convertir
+          </ion-button>
+          <ion-item style="margin-top: 20px;">
+            <ion-label>
+              <h2>Resultado:</h2>
+              <p id="resultado"></p>
+            </ion-label>
+          </ion-item>
+        </div>
+      </ion-content>
+      
+      <div id="main-content">
+        <ion-header>
+          <ion-toolbar color="primary">
+            <ion-buttons slot="start">
+              <!-- Botón que abre el menú -->
+              <ion-menu-button></ion-menu-button>
+            </ion-buttons>
+            <ion-title>Mi App</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        
+      </div>
+    </ion-app>
+
+    <!-- Script para cambiar el contenido según la opción seleccionada -->
+    <script>
+      function loadPage(page) {
+        const contentDiv = document.getElementById("pageContent");
+        switch (page) {
+          case "inicio":
+          window.location.href = 'index.html'; 
+          break;
+            break;
+          case "sumadora":
+            window.location.href = 'Sumadora.html'; 
+            break;
+          case "numerosALetras":
+          window.location.href = 'numerosALetras.html'; 
+          break;
+            
+          case "tablaMultiplicar":
+            window.location.href = 'tablaMultiplicar.html'; 
+            break;
+          case "experienciaPersonal":
+              window.location.href = 'experienciaPersonal.html'; 
+              break;                                          
+          default:
+            contentDiv.innerHTML = `
+              <h2>Error</h2>
+              <p>Página no encontrada.</p>
+            `;
+        }
+        // Cierra el menú luego de hacer la selección
+        const menu = document.querySelector("ion-menu");
+        if (menu) {
+          menu.close();
+        }
+      }
+
+      function convertirNumero() {
+        const numero = document.getElementById('numeroInput').value;
+        const resultado = document.getElementById('resultado');
+        
+        if (numero < 1 || numero > 1000) {
+          resultado.textContent = 'Por favor, ingrese un número entre 1 y 1000';
+          return;
+        }
+
+        resultado.textContent = numeroALetras(parseInt(numero));
+      }
+
+      function numeroALetras(numero) {
+        const unidades = ['', 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve'];
+        const especiales = ['diez', 'once', 'doce', 'trece', 'catorce', 'quince', 'dieciséis', 'diecisiete', 'dieciocho', 'diecinueve'];
+        const decenas = ['', 'diez', 'veinte', 'treinta', 'cuarenta', 'cincuenta', 'sesenta', 'setenta', 'ochenta', 'noventa'];
+        const centenas = ['', 'ciento', 'doscientos', 'trescientos', 'cuatrocientos', 'quinientos', 'seiscientos', 'setecientos', 'ochocientos', 'novecientos'];
+
+        if (numero === 1000) return 'mil';
+        if (numero === 100) return 'cien';
+
+        let resultado = '';
+
+        // Manejar centenas
+        if (numero >= 100) {
+          resultado += centenas[Math.floor(numero / 100)] + ' ';
+          numero %= 100;
+        }
+
+        // Manejar decenas y unidades
+        if (numero > 0) {
+          if (numero < 10) {
+            resultado += unidades[numero];
+          } else if (numero < 20) {
+            resultado += especiales[numero - 10];
+          } else {
+            const unidad = numero % 10;
+            const decena = Math.floor(numero / 10);
+            if (unidad === 0) {
+              resultado += decenas[decena];
+            } else {
+              if (decena === 2) {
+                resultado += 'veinti' + unidades[unidad];
+              } else {
+                resultado += decenas[decena] + ' y ' + unidades[unidad];
+              }
+            }
+          }
+        }
+
+        return resultado.trim();
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi App Ionic</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic.js"></script>
+    <style>
+      #pageContent {
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <ion-app>
+      <!-- Menú lateral -->
+      <ion-menu side="start" menu-id="first" content-id="main-content">
+        <ion-header>
+          <ion-toolbar color="primary">
+            <ion-title>Menú</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <ion-list>
+            <ion-menu-toggle auto-hide="false">
+              <ion-item button detail="false" onclick="loadPage('inicio')">
+                <ion-label>Pagina inicial</ion-label>
+              </ion-item>
+              <ion-item button detail="false" onclick="loadPage('sumadora')">
+                <ion-label>Sumadora</ion-label>
+              </ion-item>
+              <ion-item button detail="false" onclick="loadPage('numerosALetras')">
+                <ion-label>Numeros a letras</ion-label>
+              </ion-item>
+              <ion-item button detail="false" onclick="loadPage('tablaMultiplicar')">
+                <ion-label>Tabla de Multiplicar</ion-label>
+              </ion-item>
+              <ion-item button detail="false" onclick="loadPage('experienciaPersonal')">
+                <ion-label>Experiencia Personal</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+          </ion-list>
+        </ion-content>
+      </ion-menu>
+      <ion-content>
+        <div id="pageContent">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Mi Experiencia Personal</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <iframe 
+                width="100%" 
+                height="315" 
+                src="https://www.youtube.com/embed/PlAic8GgmoU?si=2YA6pQ-JL1BbaLgv"
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+              </iframe>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </ion-content>
+
+      <div id="main-content">
+        <ion-header>
+          <ion-toolbar color="primary">
+            <ion-buttons slot="start">
+              <ion-menu-button></ion-menu-button>
+            </ion-buttons>
+            <ion-title>Mi App</ion-title>
+          </ion-toolbar>
+        </ion-header>
+      </div>
+    </ion-app>
+
+    <script>
+      function loadPage(page) {
+        const contentDiv = document.getElementById("pageContent");
+        switch (page) {
+          case "inicio":
+          window.location.href = 'index.html'; 
+          break;
+            break;
+          case "sumadora":
+            window.location.href = 'Sumadora.html'; 
+            break;
+          case "numerosALetras":
+          window.location.href = 'numerosALetras.html'; 
+          break;
+            
+          case "tablaMultiplicar":
+            window.location.href = 'tablaMultiplicar.html'; 
+            break;
+          case "experienciaPersonal":
+              window.location.href = 'experienciaPersonal.html';
+              break;                                          
+          default:
+            contentDiv.innerHTML = `
+              <h2>Error</h2>
+              <p>Página no encontrada.</p>
+            `;
+        }
+        const menu = document.querySelector("ion-menu");
+        if (menu) {
+          menu.close();
+        }
+      }
+    </script>
+  </body>
+</html>
